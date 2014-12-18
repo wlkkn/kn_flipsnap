@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>knButtons</title>
+<script type="text/javascript" src="./src/jquery.js"></script>
+<script type="text/javascript" src="./src/flipsnap.js"></script>
+<style>
+/*重置{*/
+body,div,span{ padding:0;margin:0;}
+/*}重置*/
+.all{width:602px;height:302px;margin:100px auto 0;border:2px red solid;overflow:hidden;}/*overflow*/
+.inner{width:4816px;height:302px;}/*单个的宽度*数量*/
+.inner>div{width:600px;height:300px;border:1px blue solid;float:left;font-size:80px;font-weight:bold;text-align:center;line-height:300px;}
+.pointer{width:256px;margin:20px auto;overflow:hidden;}
+.pointer>span{float:left;width:20px;height:20px;border-radius:50%; margin:0 5px;border:1px #000 solid;}
+.color{background:#ff0;}
+</style>
+</head>
+<body>
+  <div class="all">
+    <div class="inner">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+      <div>5</div>
+      <div>6</div>
+      <div>7</div>
+      <div>8</div>
+    </div>
+  </div>
+  <div class="pointer" id="pointer">
+    <span class="color"></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div style="margin:0px auto;width:80px;" class="go">
+    <input type="text" class="num"/>
+    <input type="button" value="go" class="go" style="width:50px;height:30px;"/>
+  </div>
+</body>
+<script>
+  // 1简单的水平滑动
+  // Flipsnap('.inner');//移动次数为子元素个数减一
+  // 2设定参数
+  // Flipsnap('.inner',{
+  //   distance:602,//每次移动的距离
+  //   maxPoint:7,//最大移动次数
+  //   transitionDuration:1000,//过度时间
+  //   disableTouch:true,//是否触摸
+  //   disable3d:true//是否3d
+  // });
+  // 3绑定事件fspointmove、fstouchstart、fstouchmove、fstouchend
+  var $pointer = $('.pointer span');
+  var flipsnap = Flipsnap('.inner');
+  flipsnap.element.addEventListener('fspointmove',function(){
+    if(flipsnap.currentPoint<=$pointer.length-1){
+      $pointer.filter('.color').removeClass('color');
+      $pointer.eq(flipsnap.currentPoint).addClass('color');
+    }
+  });
+  $('.go').click(function(){
+    var point = $('.num').val();
+    flipsnap.moveToPoint(point-1);
+  })
+  // 4、使用方法
+  // var flipsnap = Flipsnap('.inner');
+  // flipsnap.refresh();//刷新当前页面
+  // flipsnap.hasNext();
+  // flipsnap.hasPrev();
+  // flipsnap.toNext([transitionDuration]);
+  // flipsnap.toPrev([transitionDuration]);
+  // flipsnap.moveToPoint(point,[transitionDuration]);
+
+</script>
+</html>
